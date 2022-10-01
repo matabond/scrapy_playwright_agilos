@@ -24,7 +24,7 @@ class SiteCrawlerSpider(scrapy.Spider):
 
         product_name = response.xpath(".//span[contains(@class, 'vtex-store-components-3-x-productBrand')]/text()")
         discount_selector = response.xpath(".//p[@title = 'FS_40%_PANALES | Descuento por Estructura']/text()")
-        # discount_selector = response.css("p[title='FS_40%_PANALES | Descuento por Estructura']::text") # The previous selector with xpath
+        # discount_selector = response.css("p[title='FS_40%_PANALES | Descuento por Estructura']::text") # The previous selector but with css instead of xpath
         price_selector = response.xpath(".//div[@class = 'contenedor-precio']")
         yield {
             "product_name": product_name.get(),
