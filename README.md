@@ -63,7 +63,7 @@ The end result should look like this...
 
 ![image](https://user-images.githubusercontent.com/98691360/193428966-f634628d-8681-4614-a48b-7460f3794442.png)
 
-**Step 10 (Optional):** If you want to launch the spider by running the script itself through the **play** button at the top right hand corner and **not** through the terminal, please add the following import command at the start of the script ```from scrapy.crawler import CrawlerProcess``` and insert these few lines of code at the end of the script **without indentation**
+**Step 10 (Optional):** If you want to launch the spider by running the script itself through the **play** button at the top right hand corner and **not** through the terminal, please add the following import command at the start of the script ```from scrapy.crawler import CrawlerProcess``` and insert these few lines of code at the end of the script **without indentation outside the class code block**
 ```
 process = CrawlerProcess(settings = {
     "DOWNLOAD_HANDLERS": {
