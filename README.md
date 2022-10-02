@@ -14,7 +14,9 @@ To scrape dynamic websites in Python, one of these three options can be used:
 I prefer option #1 for low-volume scraping and option #3 for high-volume scraping because these proxy services also re-route your requests and overcome the anti-bot mechanisms that E-commerce websites use. Option #2 also works pretty well, but you need to be familiar with docker and have it installed on your computer. scrapy-playwright does not need a docker-image to work and acts as a direct plugin to scrapy, which makes it pretty easy to use.
 
 # Usability and Reproducability
-**Step 1:** scrapy-playwright does **not work natively on Windows**. It only works on **Linux** and **Mac**. If you use Windows, you'll need to use Windows Subsystem for Linux (WSL). Otherwise, the spider will always fail.
+**Step 0:** To know if a website is dynamically rendered or not, **click F12**, then **Ctrl-Shift-P**, type in **Disable JavaScript**, then **reload the page**. If the text/numbers you want to scrape disappear, then you indeed have a JS-rendered website
+
+**Step 1:** scrapy-playwright does **not work natively on Windows**. It only works on **Linux** and **Mac**. If you use Windows, you'll need to use Windows Subsystem for Linux (WSL). Otherwise, the spider will always fail
 
 If you are using Windows, please follow the steps in this [video](https://youtu.be/QGSz6KvsDSI?t=272) from 4:30 to 14:00 to install **WSL**, **VSCode**, and **Windows Terminal** on your machine. The video is courtesy of YouTube user **freakingud**. It is **not** in English (probably Hindi), but you will be able to follow the steps without any problems from the screen recordings. I found this to be one of the most straightforward guides to install WSL despite the fact that I did not understand the language.
 
