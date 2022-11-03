@@ -12,9 +12,16 @@ BOT_NAME = 'site_crawler'
 SPIDER_MODULES = ['site_crawler.spiders']
 NEWSPIDER_MODULE = 'site_crawler.spiders'
 
+LOG_LEVEL = 'WARNING'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'site_crawler (+http://www.yourdomain.com)'
+from .utils import get_random_agent
+
+USER_AGENT = get_random_agent()
+
+MONGO_URI = 'mongodb://localhost:27017/'
+MONGO_DATABASE = 'bikedb'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -70,9 +77,10 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'site_crawler.pipelines.SiteCrawlerPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'site_crawler.pipelines.MongoPipeline': 300
+#    ,'site_crawler.pipelines.DuplicatesPipeline': 100
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

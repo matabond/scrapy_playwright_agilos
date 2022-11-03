@@ -6,7 +6,13 @@
 import scrapy
 
 
-class SiteCrawlerItem(scrapy.Item):
+class RogJomaItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    Source = scrapy.Field()
+    cijenaHRK = scrapy.Field()
+    cijenaEUR = scrapy.Field()
+    url = scrapy.Field()
+    opis = scrapy.Field()
+    kategorija = scrapy.Field()
+    slika = scrapy.Field()
+    ime_artikla = scrapy.Field()
