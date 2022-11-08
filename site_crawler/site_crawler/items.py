@@ -16,3 +16,15 @@ class RogJomaItem(scrapy.Item):
     kategorija = scrapy.Field()
     slika = scrapy.Field()
     ime_artikla = scrapy.Field()
+
+
+class BikeDiscountItem(scrapy.Item):
+    # define the fields for your item here like:
+    Source = scrapy.Field()
+    cijena_popust = scrapy.Field()
+    cijena = scrapy.Field()
+    url = scrapy.Field()
+    opis = scrapy.Field()
+    kategorija = scrapy.Field()
+    slika = scrapy.Field()
+    ime_artikla = scrapy.Field()
