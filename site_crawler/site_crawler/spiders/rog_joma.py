@@ -32,15 +32,11 @@ class Rog_Joma_Spider(scrapy.Spider):
         page = response.meta.get("playwright_page")
         source = await page.content()
         sel = Selector(text=source)
-        # priv_urls = len(self.urls)
         extracted_urls = set()
         for link in sel.xpath("//a/@href").getall():
             link = response.urljoin(link)
-            # self.urls.add(link)
             if validators.url(link):
                 extracted_urls.add(link)
-        # print("[+] [bold green] Extracted URLS [bold cyan]",len(extracted_urls))
-        # print(extracted_urls)
         await page.close()
 
         for url in extracted_urls:
@@ -55,10 +51,7 @@ class Rog_Joma_Spider(scrapy.Spider):
 
     async def parse_site(self,response):
         try:
-            # loader = ItemLoader(item=RogJomaItem(),response=response)
-
             sel = Selector(text=response.body)
-
             items=sel.xpath("//div[@class='product_cnt_border']").getall()
             for i in items:
                 sel2=Selector(text=i)
@@ -82,30 +75,6 @@ class Rog_Joma_Spider(scrapy.Spider):
                 page = response.meta.get("playwright_page")
                 await page.close()
                 yield item
-            
-
-
-
-            # cijenaHRK = sel.xpath("//span[@class='product_price_amount']/text()").getall()
-            # cijenaEUR = sel.xpath("//div[@class='productPriceEurTrans']/text()").getall()
-            # url = sel.xpath("//div[@class='product_cnt_border']/div/h2/a/@href").getall()
-            # ime_artikla = sel.xpath("//div[@class='product_cnt_border']/div/h2/a/span[@class='product_title_name']/text()").getall()
-            # kategorija = sel.xpath("//div[@class='product_cnt_border']/div/h2/a/span[@class='product_title_brand']/text()").getall()
-            # slika = sel.xpath("//div[@class='product_cnt_border']//picture/img/@src").getall()
-
-            # for idx, artikl in enumerate(ime_artikla):
-            #     item=RogJomaItem()
-            #     item['Source']=response.url
-            #     item['cijenaHRK']=cijenaHRK[idx]
-            #     item['cijenaEUR']=cijenaEUR[idx]
-            #     item['url']=url[idx]
-            #     item['ime_artikla']=ime_artikla[idx]
-            #     item['kategorija']=kategorija[idx]
-            #     item['slika']=slika[idx]
-
-            #     page = response.meta.get("playwright_page")
-            #     await page.close()
-            #     yield item
         except:
             self.con.print_exception()
 
