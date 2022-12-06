@@ -25,7 +25,7 @@ from scrapy.exceptions import DropItem
 
 class MongoPipeline:
 
-    collection_name = 'rog_joma'
+    collection_name = 'rog_joma3'
 
     def __init__(self, mongo_uri, mongo_db):
         self.mongo_uri = mongo_uri
@@ -35,7 +35,7 @@ class MongoPipeline:
     def from_crawler(cls, crawler):
         return cls(
             mongo_uri=crawler.settings.get('MONGO_URI'),
-            mongo_db=crawler.settings.get('MONGO_DATABASE', 'rog_joma')
+            mongo_db=crawler.settings.get('MONGO_DATABASE', 'rog_joma3')
         )
 
     def open_spider(self, spider):
