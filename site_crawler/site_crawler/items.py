@@ -5,7 +5,6 @@
 
 import scrapy
 
-
 class RogJomaItem(scrapy.Item):
     # define the fields for your item here like:
     source_link = scrapy.Field()
@@ -14,6 +13,7 @@ class RogJomaItem(scrapy.Item):
     item_url = scrapy.Field()
     # opis = scrapy.Field()
     kategorija = scrapy.Field()
+    ppn_dtm = scrapy.Field()
     slika_url = scrapy.Field()
     ime_artikla = scrapy.Field()
 
