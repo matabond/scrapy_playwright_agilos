@@ -79,7 +79,7 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'site_crawler.pipelines.MongoPipeline': 300
-#    ,'site_crawler.pipelines.DuplicatesPipeline': 100
+    ,'site_crawler.pipelines.PostgresPipeline': 100
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

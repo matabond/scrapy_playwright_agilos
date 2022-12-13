@@ -7,6 +7,8 @@ from scrapy.selector import Selector
 from scrapy.loader import ItemLoader
 from ..items import RogJomaItem
 import validators
+from ..utils import regexp
+import datetime
 
 class Rog_Joma_Spider(scrapy.Spider):
     name = 'rog_joma'
@@ -55,8 +57,8 @@ class Rog_Joma_Spider(scrapy.Spider):
             items=sel.xpath("//div[@class='product_cnt_border']").getall()
             for i in items:
                 sel2=Selector(text=i)
-                cijenaHRK = sel2.xpath("//span[@class='product_price_amount']/text()").get()
-                cijenaEUR = sel2.xpath("//div[@class='productPriceEurTrans']/text()").get()
+                cijenaHRK = sel2.xpath("//span[@class='product_price_amount']/text()").get().replace(' ','') #cijena u sebi ima blankove
+                cijenaEUR = sel2.xpath("//div[@class='productPriceEurTrans']/text()").get().replace(' ','') #cijena u sebi ima blankove
                 url = sel2.xpath("//div[@class='product_cnt_border']/div/h2/a/@href").get()
                 ime_artikla = sel2.xpath("//div[@class='product_cnt_border']/div/h2/a/span[@class='product_title_name']/text()").get()
                 kategorija = sel2.xpath("//div[@class='product_cnt_border']/div/h2/a/span[@class='product_title_brand']/text()").get()
@@ -65,13 +67,14 @@ class Rog_Joma_Spider(scrapy.Spider):
                     slika = sel2.xpath("//div[@class='product_cnt_border']//picture/img/@src").get()
 
                 item=RogJomaItem()
-                item['Source']=response.url
-                item['cijenaHRK']=cijenaHRK
-                item['cijenaEUR']=cijenaEUR
-                item['url']=url
+                item['source_link']=response.url
+                item['cijena_hrk']=regexp(r"\d+\,\d*",cijenaHRK).replace(',','.')
+                item['cijena_eur']=regexp(r"\d+\,\d*",cijenaEUR).replace(',','.')
+                item['item_url']='https://www.rog-joma.hr'+url
                 item['ime_artikla']=ime_artikla
                 item['kategorija']=kategorija
-                item['slika']=slika
+                item['slika_url']=slika
+                item['ppn_dtm']=datetime.datetime.now()
                 page = response.meta.get("playwright_page")
                 await page.close()
                 yield item

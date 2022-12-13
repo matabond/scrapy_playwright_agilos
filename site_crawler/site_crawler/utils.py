@@ -1,6 +1,11 @@
 import random
 
-
+import re
+def regexp(regexp,string):
+    try:
+        return re.findall(r"" + regexp + "", string)[0].strip()
+    except:
+        return None
 
 user_agent_list = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246',
