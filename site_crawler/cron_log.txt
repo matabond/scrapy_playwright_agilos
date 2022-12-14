@@ -1,0 +1,2 @@
+12_14_2022_13_30_01 - starting spider rog_joma - debug: True
+12_14_2022_13_33_55 - spider finished successfully
