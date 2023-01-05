@@ -5,7 +5,18 @@ def regexp(regexp,string):
     try:
         return re.findall(r"" + regexp + "", string)[0].strip()
     except:
-        return None
+        return ""
+
+def izvuci_cijenu(input_price):
+    if input_price:
+        input_price=input_price.replace(' ','').replace(',','.') #zarez separator
+        input_price=regexp(r"\d+\.?\d*",input_price)
+        if input_price > "":
+            return float(input_price)
+        else:
+            return 0.0
+    else:
+        return 0.0
 
 user_agent_list = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246',

@@ -33,10 +33,17 @@ class PostgresPipeline:
         self.cur.close()
         self.connection.close()
 
+    # def process_item(self, item, spider):
+    #     self.cur.execute(
+    #         "INSERT INTO public.rog_joma(ppn_dtm,source_link, cijena_hrk, cijena_eur, url,  kategorija, slika_url, ime_artikla) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+    #         (item['ppn_dtm'],item['source_link'],item['cijena_hrk'],item['cijena_eur'],item['item_url'],item['kategorija'],item['slika_url'],item['ime_artikla']))
+    #     self.connection.commit()
+    #     return item
+
     def process_item(self, item, spider):
         self.cur.execute(
-            "INSERT INTO public.rog_joma(ppn_dtm,source_link, cijena_hrk, cijena_eur, url,  kategorija, slika_url, ime_artikla) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-            (item['ppn_dtm'],item['source_link'],item['cijena_hrk'],item['cijena_eur'],item['item_url'],item['kategorija'],item['slika_url'],item['ime_artikla']))
+            "INSERT INTO public.rog_joma(ppn_dtm,source_link, cijena_prije_akcije, cijena_eur, url,  kategorija, ime_artikla, opis, akcija) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            (item['ppn_dtm'],item['source_link'],item['cijena_prije_akcije'],item['cijena_eur'],item['item_url'],item['kategorija'],item['ime_artikla'],item['opis'],item['akcija']))
         self.connection.commit()
         return item
 
