@@ -42,3 +42,4 @@
 01_03_2023_09_03_55 - spider finished successfully
 01_04_2023_09_00_01 - starting spider rog_joma - debug: True
 01_04_2023_09_04_16 - spider finished successfully
+01_05_2023_09_00_01 - starting spider rog_joma - debug: True
