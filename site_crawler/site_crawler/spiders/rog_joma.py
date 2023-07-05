@@ -10,6 +10,12 @@ import validators
 from ..utils import regexp, izvuci_cijenu
 import datetime
 
+import logging
+logging.basicConfig(handlers=[logging.FileHandler(filename="./log.txt",encoding='utf-8', mode='a+')],
+                    format=u"%(asctime)s::%(threadName)-10s::%(levelname)s::%(name)s::%(lineno)d::%(message)s", 
+                    datefmt="%F %A %T", 
+                    level=logging.DEBUG)
+
 class Rog_Joma_Spider(scrapy.Spider):
     name = 'rog_joma'
     start_urls = ['https://www.rog-joma.hr/']
@@ -17,6 +23,7 @@ class Rog_Joma_Spider(scrapy.Spider):
     # urls = set()
     def start_requests(self):
         url = "https://www.rog-joma.hr/"
+        logging.info(f"1url: {url}")
         yield scrapy.Request(
             url,callback=self.parse,
             meta = {
@@ -42,6 +49,7 @@ class Rog_Joma_Spider(scrapy.Spider):
                 extracted_urls.add(link)
 
         for url in extracted_urls:
+            logging.info(f"2url: {url}")
             yield scrapy.Request(
             url,callback=self.parse_site,
             meta={"playwright":True,"playwright_include_page":True,"playwright_page_methods":[
@@ -70,6 +78,7 @@ class Rog_Joma_Spider(scrapy.Spider):
                 #     slika = sel2.xpath("//div[@class='product_cnt_border']//picture/img/@src").get()
 
                 if validators.url(url):
+                    logging.info(f"3url: {url}")
                     yield scrapy.Request(
                     url,callback=self.parse_item,
                     meta={"playwright":True,"playwright_include_page":True,"playwright_page_methods":[
@@ -100,15 +109,18 @@ class Rog_Joma_Spider(scrapy.Spider):
         cijena_prije_akcije = sel.xpath("//span[@class='productReducedPriceAmount']/text()").get()
         cijenaEUR = sel.xpath("//span[@class='productSalePriceAmount']/text()").get()
         item=RogJomaItem()
-        item['item_url']=response.url
-        item['cijena_prije_akcije']=izvuci_cijenu(cijena_prije_akcije)
-        item['cijena_eur']=izvuci_cijenu(cijenaEUR) #ako ne skupljam onda stavljam 0.0
-        item['ime_artikla']=ime_artikla
-        item['kategorija']=kategorija
+        item['link']=response.url
+        item['price_before']=izvuci_cijenu(cijena_prije_akcije)
+        item['price_eur']=izvuci_cijenu(cijenaEUR) #ako ne skupljam onda stavljam 0.0
+        item['title']=ime_artikla
+        item['brend']=kategorija
         item['source_link']=source_link
-        item['opis']=full_opis.strip()
-        item['akcija']=True if item['cijena_prije_akcije'] > 0.0 else False
+        item['description']=full_opis.strip()
+        item['discount']=True if item['price_before'] > 0.0 else False
         item['ppn_dtm']=datetime.datetime.now()
+        item['src'] = sel.css('div.col-12.col-lg-7.product_detail_picture_column div.bicycleDetailZoomCnt a::attr(href)').extract_first()
+        item['breadcrumb'] = sel.css('div.col-12.breadcrumbs_cnt.bottom ul.breadcrumb_list > li a:not(:last-child)::attr(title)').extract()
+        item['coupons']=None
 
         await page.close()
         yield item

@@ -12,7 +12,7 @@ import psycopg
 from scrapy.exceptions import DropItem
 import datetime
 
-class PostgresPipeline:
+class PostgresPipeline_bike:
 
     # def __init__(self, postgres_uri, postgres_db):
     #     self.postgres_uri = postgres_uri
@@ -42,10 +42,46 @@ class PostgresPipeline:
 
     def process_item(self, item, spider):
         self.cur.execute(
-            "INSERT INTO public.rog_joma(ppn_dtm,source_link, cijena_prije_akcije, cijena_eur, url,  kategorija, ime_artikla, opis, akcija) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-            (item['ppn_dtm'],item['source_link'],item['cijena_prije_akcije'],item['cijena_eur'],item['item_url'],item['kategorija'],item['ime_artikla'],item['opis'],item['akcija']))
+            "INSERT INTO public.bicikli(ppn_dtm, source_link, cijena_prije_akcije, cijena_eur, url,  kategorija, slika_url, ime_artikla, opis, akcija, coupons) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",  #prvo dodaj ppn_dtm(datum), a onda i source link, i values dodaj onda 2 %s
+            (item['ppn_dtm'], item['breadcrumb'], item['price_before'],item['price_eur'],item['link'],item['brend'],item['src'], item['title'],item['description'],item['discount'], item['coupons']))  #prvo dodaj item['ppn_dtm'], a onda i item['source_link]
         self.connection.commit()
         return item
+
+
+class PostgresPipeline:
+
+    # def __init__(self, postgres_uri, postgres_db):
+    #     self.postgres_uri = postgres_uri
+    #     self.postgres_db = postgres_db
+
+    # @classmethod
+    # def from_crawler(cls, crawler):
+    #     return cls(
+    #         postgres_uri=crawler.settings.get('POSTGRES_URI'),
+    #         postgres_db=crawler.settings.get('POSTGRES_DATABASE')
+    #     )
+
+    def open_spider(self, spider):
+        self.connection = psycopg.connect("dbname=scraping user=postgres password=mysecretpassword host=localhost port=5432")
+        self.cur = self.connection.cursor()
+
+    def close_spider(self, spider):
+        self.cur.close()
+        self.connection.close()
+
+    # def process_item(self, item, spider):
+    #     self.cur.execute(
+    #         "INSERT INTO public.rog_joma(ppn_dtm,source_link, cijena_hrk, cijena_eur, url,  kategorija, slika_url, ime_artikla) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+    #         (item['ppn_dtm'],item['source_link'],item['cijena_hrk'],item['cijena_eur'],item['item_url'],item['kategorija'],item['slika_url'],item['ime_artikla']))
+    #     self.connection.commit()
+    #     return item
+
+    # def process_item(self, item, spider):
+    #     self.cur.execute(
+    #         "INSERT INTO public.bicikli(ppn_dtm,source_link, cijena_prije_akcije, cijena_eur, url,  kategorija, ime_artikla, opis, akcija) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+    #         (item['ppn_dtm'],item['source_link'],item['cijena_prije_akcije'],item['cijena_eur'],item['item_url'],item['kategorija'],item['ime_artikla'],item['opis'],item['akcija']))
+    #     self.connection.commit()
+    #     return item
 
 class MongoPipeline:
     collection_name = 'rog_joma'

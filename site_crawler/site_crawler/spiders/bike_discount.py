@@ -74,6 +74,8 @@ class Bike_Discount_Spider(scrapy.Spider):
                 item['ime_artikla']=ime_artikla
                 item['kategorija']=kategorija
                 item['slika']=slika
+                item['coupons'] = None
+                
                 page = response.meta.get("playwright_page")
                 await page.close()
                 yield item

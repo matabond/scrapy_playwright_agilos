@@ -6,6 +6,13 @@ def regexp(regexp,string):
         return re.findall(r"" + regexp + "", string)[0].strip()
     except:
         return ""
+    
+def should_abort_request(request):
+    if request.resource_type=='image' or request.resource_type=='xhr' or request.resource_type=='script' or request.resource_type=='stylesheet':
+        return True
+    if request.method.lower() =='post':
+        return True
+    return False
 
 def izvuci_cijenu(input_price):
     if input_price:
@@ -17,6 +24,55 @@ def izvuci_cijenu(input_price):
             return 0.0
     else:
         return 0.0
+
+
+def strip_null(x):
+
+    if x is not None:
+        x=x.strip()
+    return x
+
+def strip_znakovi(y):               #dodala ove dvije funkcije dolje kako bih zadovoljila datatype u rog jomi
+    if y is not None:
+        y=re.sub("[^0123456789\.]", "", y)
+    return y
+
+
+def strip_znakovi2(y):               #dodala ove dvije funkcije dolje kako bih zadovoljila datatype u rog jomi
+    if y is not None:
+        y=re.sub("[^0123456789\,]", "", y).replace(',', '.')
+    return y
+
+def akcija(z):
+    if z is not None:
+        return(True)
+    else:
+        return(False)
+
+def check_null(k, v, j):
+    if k is not None:
+        return k
+    elif k is None and v is not None:
+        return v
+    elif k is None and v is None and j is not None:
+        return j
+    
+def prazno(price):
+    if price != '':
+        return price
+    else:
+        return None
+    
+def nlp_analiza(tekst):
+    if tekst is None:
+        return None
+    if "Promotional offer:" in tekst:
+        return None
+    match = re.search(r'(\d+(\.\d+)?)%', tekst)
+    if match:
+        return int(match.group(1))
+    else:
+        return None
 
 user_agent_list = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246',

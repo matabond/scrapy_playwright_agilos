@@ -1,3 +1,4 @@
-/venv_scraping
-/site_crawler/logs
-/site_crawler/__pycache__
+/venv_scraping/
+/site_crawler/logs/
+/site_crawler/__pycache__/
+/site_crawler/crawls/
